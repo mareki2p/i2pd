@@ -30,43 +30,11 @@ namespace i18n
 				const Strings& strings,
 				const std::map<std::string, std::vector<std::string>>& plurals,
 				std::function<int(int)> formula
-			): m_Language (language), m_Strings (strings), m_Plurals (plurals), m_Formula (formula) { };
-
+			);
 			// Get activated language name for webconsole
-			std::string GetLanguage() const
-			{
-				return m_Language;
-			}
-
-			std::string_view GetString (std::string_view arg) const
-			{
-				auto const begin = m_Strings.m_begin;
-				auto const end = m_Strings.m_begin + m_Strings.m_count;
-				auto const it = std::lower_bound(begin, end, arg, [](auto const& val, auto const& arg){ return val.m_string_view_pair.first < arg; });
-				if(it != end && it->m_string_view_pair.first == arg)
-				{
-					return it->m_string_view_pair.second;
-				}
-				else
-				{
-					return arg;
-				}
-			}
-
-			std::string GetPlural (const std::string& arg, const std::string& arg2, const int& n) const
-			{
-				const auto it = m_Plurals.find(arg2);
-				if (it == m_Plurals.end()) // not found, fallback to english
-				{
-					return n == 1 ? arg : arg2;
-				}
-				else
-				{
-					int form = m_Formula(n);
-					return it->second[form];
-				}
-			}
-
+			std::string GetLanguage() const;
+			std::string_view GetString (std::string_view arg) const;
+			std::string GetPlural (const std::string& arg, const std::string& arg2, const int& n) const;
 		private:
 			const std::string m_Language;
 			const Strings m_Strings;
