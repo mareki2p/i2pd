@@ -9,23 +9,25 @@
 #ifndef __I18N_H__
 #define __I18N_H__
 
+#include <algorithm>
+#include <functional>
+#include <map>
 #include <string>
 #include <string_view>
-#include <map>
 #include <utility>
-#include <functional>
+
+#include "LocaleStringsSorted.h"
 
 namespace i2p
 {
 namespace i18n
 {
-	typedef std::map<std::string_view, std::string_view> LocaleStrings; 
 	class Locale
 	{
 		public:
 			Locale (
 				const std::string& language,
-				const LocaleStrings& strings,
+				const Strings& strings,
 				const std::map<std::string, std::vector<std::string>>& plurals,
 				std::function<int(int)> formula
 			): m_Language (language), m_Strings (strings), m_Plurals (plurals), m_Formula (formula) { };
@@ -38,14 +40,16 @@ namespace i18n
 
 			std::string_view GetString (std::string_view arg) const
 			{
-				const auto it = m_Strings.find(arg);
-				if (it == m_Strings.end())
+				auto const begin = m_Strings.m_begin;
+				auto const end = m_Strings.m_begin + m_Strings.m_count;
+				auto const it = std::lower_bound(begin, end, arg, [](auto const& val, auto const& arg){ return val.m_string_view_pair.first < arg; });
+				if(it != end && it->m_string_view_pair.first == arg)
 				{
-					return arg;
+					return it->m_string_view_pair.second;
 				}
 				else
 				{
-					return it->second;
+					return arg;
 				}
 			}
 
@@ -65,7 +69,7 @@ namespace i18n
 
 		private:
 			const std::string m_Language;
-			const LocaleStrings m_Strings;
+			const Strings m_Strings;
 			const std::map<std::string, std::vector<std::string>> m_Plurals;
 			std::function<int(int)> m_Formula;
 	};
