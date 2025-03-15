@@ -11,6 +11,7 @@
 #include <string>
 #include <memory>
 #include "I18N.h"
+#include "LocaleStringsSorted.h"
 
 // English localization file
 // This is an example translation file without strings in it.
@@ -30,9 +31,9 @@ namespace english // language namespace
 		return n != 1 ? 1 : 0;
 	}
 
-	static const LocaleStrings strings
+	static constexpr auto strings = StringViewPairs
 	{
-		{"", ""},
+		StringViewPair{"", ""},
 	};
 
 	static std::map<std::string, std::vector<std::string>> plurals
@@ -42,7 +43,7 @@ namespace english // language namespace
 
 	std::shared_ptr<const i2p::i18n::Locale> GetLocale()
 	{
-		return std::make_shared<i2p::i18n::Locale>(language, strings, plurals, [] (int n)->int { return plural(n); });
+		return std::make_shared<i2p::i18n::Locale>(language, Strings{strings}, plurals, [] (int n)->int { return plural(n); });
 	}
 
 } // language

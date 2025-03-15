@@ -11,6 +11,7 @@
 #include <string>
 #include <memory>
 #include "I18N.h"
+#include "LocaleStringsSorted.h"
 
 // Afrikaans localization file
 
@@ -29,37 +30,37 @@ namespace afrikaans // language namespace
 		return n != 1 ? 1 : 0;
 	}
 
-	static const LocaleStrings strings
+	static constexpr auto strings = StringViewPairs
 	{
-		{"failed", "Het misluk"},
-		{"unknown", "onbekend"},
-		{"Tunnels", "Tonnels"},
-		{"I2P tunnels", "I2P tonnels"},
-		{"SAM sessions", "SAM sessies"},
-		{"OK", "LEKKER"},
-		{"Testing", "Besig om te toets"},
-		{"Firewalled", "Vuurmuur'd"},
-		{"Unknown", "Onbekend"},
-		{"Error", "Fout"},
-		{"Offline", "Aflyn"},
-		{"Uptime", "Optyd"},
-		{"Network status", "Netwerk status"},
-		{"Network status v6", "Netwerk status v6"},
-		{"Family", "Familie"},
-		{"Received", "Ontvang"},
-		{"Sent", "Gestuur"},
-		{"Hidden content. Press on text to see.", "Hidden content. Druk om te sien."},
-		{"Router Ident", "Router Ident"},
-		{"Router Family", "Router Familie"},
-		{"Enabled", "Geaktiveer"},
-		{"Disabled", "Gedeaktiveer"},
-		{"Change", "Verander"},
-		{"Change language", "Verander taal"},
-		{"Description", "Beskrywing"},
-		{"Submit", "Stuur"},
-		{"Proxy error", "Proxy-fout"},
-		{"Host", "Gasheer"},
-		{"", ""},
+		StringViewPair{"failed", "Het misluk"},
+		StringViewPair{"unknown", "onbekend"},
+		StringViewPair{"Tunnels", "Tonnels"},
+		StringViewPair{"I2P tunnels", "I2P tonnels"},
+		StringViewPair{"SAM sessions", "SAM sessies"},
+		StringViewPair{"OK", "LEKKER"},
+		StringViewPair{"Testing", "Besig om te toets"},
+		StringViewPair{"Firewalled", "Vuurmuur'd"},
+		StringViewPair{"Unknown", "Onbekend"},
+		StringViewPair{"Error", "Fout"},
+		StringViewPair{"Offline", "Aflyn"},
+		StringViewPair{"Uptime", "Optyd"},
+		StringViewPair{"Network status", "Netwerk status"},
+		StringViewPair{"Network status v6", "Netwerk status v6"},
+		StringViewPair{"Family", "Familie"},
+		StringViewPair{"Received", "Ontvang"},
+		StringViewPair{"Sent", "Gestuur"},
+		StringViewPair{"Hidden content. Press on text to see.", "Hidden content. Druk om te sien."},
+		StringViewPair{"Router Ident", "Router Ident"},
+		StringViewPair{"Router Family", "Router Familie"},
+		StringViewPair{"Enabled", "Geaktiveer"},
+		StringViewPair{"Disabled", "Gedeaktiveer"},
+		StringViewPair{"Change", "Verander"},
+		StringViewPair{"Change language", "Verander taal"},
+		StringViewPair{"Description", "Beskrywing"},
+		StringViewPair{"Submit", "Stuur"},
+		StringViewPair{"Proxy error", "Proxy-fout"},
+		StringViewPair{"Host", "Gasheer"},
+		StringViewPair{"", ""},
 	};
 
 	static std::map<std::string, std::vector<std::string>> plurals
@@ -73,7 +74,7 @@ namespace afrikaans // language namespace
 
 	std::shared_ptr<const i2p::i18n::Locale> GetLocale()
 	{
-		return std::make_shared<i2p::i18n::Locale>(language, strings, plurals, [] (int n)->int { return plural(n); });
+		return std::make_shared<i2p::i18n::Locale>(language, Strings{strings}, plurals, [] (int n)->int { return plural(n); });
 	}
 
 } // language
